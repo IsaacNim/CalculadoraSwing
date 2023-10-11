@@ -44,9 +44,13 @@ public class Memoria {
 			textoBuffer = "";
 			substituir = false;
 			ultimaOperacao = null;
+			
 		} else if (tipoComando == TipoComando.SINAL && textoAtual.contains("-")) {
 			textoAtual = textoAtual.substring(1);
 		} else if (tipoComando == TipoComando.SINAL && !textoAtual.contains("-")) {
+			if("0".contains(textoAtual)) {
+				return;
+			}
 			textoAtual = "-" + textoAtual;
 		} else if (tipoComando == TipoComando.NUMERO || tipoComando == TipoComando.VIRGULA) {
 			textoAtual = substituir ? texto : textoAtual + texto;
@@ -81,12 +85,13 @@ public class Memoria {
 		} else if (ultimaOperacao == TipoComando.DIVISAO) {
 			resultado = numeroBuffer / numeroAtual;
 		}
-		
+		  
 		String resultadoString = Double.toString(resultado).replace(".", ",");
 		boolean numeroInteiro = resultadoString.endsWith(",0");
+		
 		return numeroInteiro ? resultadoString.replace(",0", "") : resultadoString;
 	}
-
+ 
 	private TipoComando detectarTipoComando(String texto) {
 		if(textoAtual.isEmpty() && texto == "0")  {
 			return null;			
